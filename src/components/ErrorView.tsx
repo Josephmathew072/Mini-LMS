@@ -1,7 +1,5 @@
-// src/components/ErrorView.tsx
-
-import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { useTheme } from '@/context/ThemeContext';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 interface Props {
   message: string;
@@ -9,11 +7,13 @@ interface Props {
 }
 
 export function ErrorView({ message, onRetry }: Props) {
+  const { colors } = useTheme();
+
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
       <Text style={styles.emoji}>⚠️</Text>
-      <Text style={styles.message}>{message}</Text>
-      <TouchableOpacity style={styles.retryBtn} onPress={onRetry} activeOpacity={0.8}>
+      <Text style={[styles.message, { color: colors.textSecondary }]}>{message}</Text>
+      <TouchableOpacity style={[styles.retryBtn, { backgroundColor: colors.primary }]} onPress={onRetry} activeOpacity={0.8}>
         <Text style={styles.retryText}>Try Again</Text>
       </TouchableOpacity>
     </View>

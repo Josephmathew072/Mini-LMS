@@ -13,6 +13,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { WebView, WebViewMessageEvent } from 'react-native-webview';
 
 import { OfflineBanner } from '@/components/OfflineBanner';
+import { useTheme } from '@/context/ThemeContext';
 import { useNetwork } from '@/hooks/useNetwork';
 import { useAuthStore } from '@/stores/authStore';
 import { useCourseStore } from '@/stores/courseStore';
@@ -30,6 +31,7 @@ const INJECT_ON_LOAD = `
 
 export default function WebViewScreen() {
   const { courseId } = useLocalSearchParams<{ courseId: string }>();
+  const { colors } = useTheme();
   const { courses, completedIds, markCourseComplete } = useCourseStore();
   const { user } = useAuthStore();
   const router = useRouter();
@@ -48,7 +50,7 @@ export default function WebViewScreen() {
 
   const handleMarkComplete = async () => {
     if (!courseId) return;
-    
+
     try {
       await markCourseComplete(courseId);
       showToast('Course completed! 🎉', 'Great job! Keep learning.');
@@ -77,9 +79,8 @@ export default function WebViewScreen() {
               if (el) {
                 el.insertAdjacentHTML(
                   'afterend',
-                  '<p style="font-size:12px;opacity:0.8;margin-top:4px">👤 Viewing as ${
-                    user?.username ?? 'Guest'
-                  }</p>'
+                  '<p style="font-size:12px;opacity:0.8;margin-top:4px">👤 Viewing as ${user?.username ?? 'Guest'
+            }</p>'
                 );
               }
             })();
@@ -130,9 +131,9 @@ export default function WebViewScreen() {
 
   if (!course) {
     return (
-      <SafeAreaView style={styles.safe}>
+      <SafeAreaView style={[styles.safe, { backgroundColor: colors.background }]}>
         <View style={styles.center}>
-          <Text style={styles.errorText}>Course not found.</Text>
+          <Text style={[styles.errorText, { color: colors.text }]}>Course not found.</Text>
         </View>
       </SafeAreaView>
     );
@@ -140,12 +141,12 @@ export default function WebViewScreen() {
 
   if (loadError) {
     return (
-      <SafeAreaView style={styles.safe}>
+      <SafeAreaView style={[styles.safe, { backgroundColor: colors.background }]}>
         <View style={styles.center}>
           <Text style={styles.errorEmoji}>⚠️</Text>
-          <Text style={styles.errorText}>Failed to load course content.</Text>
+          <Text style={[styles.errorText, { color: colors.text }]}>Failed to load course content.</Text>
 
-          <TouchableOpacity style={styles.retryBtn} onPress={handleRetry}>
+          <TouchableOpacity style={[styles.retryBtn, { backgroundColor: colors.primary }]} onPress={handleRetry}>
             <Text style={styles.retryText}>Try Again</Text>
           </TouchableOpacity>
         </View>
@@ -156,37 +157,20 @@ export default function WebViewScreen() {
   const htmlContent = buildCourseHTML(course);
 
   return (
-    <SafeAreaView style={styles.safe} edges={['bottom']}>
+    <SafeAreaView style={[styles.safe, { backgroundColor: colors.background }]} edges={['bottom']}>
       {!isConnected && <OfflineBanner />}
-
-      {/* Mark as Complete Button */}
-      {!isCompleted && (
-        <TouchableOpacity 
-          style={styles.completeBtn} 
-          onPress={handleMarkComplete}
-          activeOpacity={0.8}
-        >
-          <Text style={styles.completeBtnText}>✅ Mark as Complete</Text>
-        </TouchableOpacity>
-      )}
-
-      {isCompleted && (
-        <View style={styles.completedBadge}>
-          <Text style={styles.completedText}>✅ Course Completed</Text>
-        </View>
-      )}
 
       {/* Bridge status */}
       {bridgeStatus === 'connected' && (
-        <View style={styles.bridgeBadge}>
-          <Text style={styles.bridgeText}>🔗 WebView bridge active</Text>
+        <View style={[styles.bridgeBadge, { backgroundColor: colors.surface }]}>
+          <Text style={[styles.bridgeText, { color: colors.primary }]}>🔗 WebView bridge active</Text>
         </View>
       )}
 
       {/* Lesson status */}
       {selectedLesson !== null && (
-        <View style={styles.lessonBadge}>
-          <Text style={styles.lessonText}>📖 Lesson {selectedLesson}</Text>
+        <View style={[styles.lessonBadge, { backgroundColor: colors.surface }]}>
+          <Text style={[styles.lessonText, { color: colors.primary }]}>📖 Lesson {selectedLesson}</Text>
         </View>
       )}
 
@@ -229,8 +213,8 @@ export default function WebViewScreen() {
           startInLoadingState
           renderLoading={() => (
             <View style={styles.loadingOverlay}>
-              <ActivityIndicator size="large" color="#6366f1" />
-              <Text style={styles.loadingText}>
+              <ActivityIndicator size="large" color={colors.primary} />
+              <Text style={[styles.loadingText, { color: colors.text }]}>
                 Loading course content…
               </Text>
             </View>
@@ -243,6 +227,22 @@ export default function WebViewScreen() {
           mediaPlaybackRequiresUserAction={false}
           style={styles.webview}
         />
+      )}
+      {/* Mark as Complete Button */}
+      {!isCompleted && (
+        <TouchableOpacity
+          style={[styles.completeBtn, { backgroundColor: colors.primary }]}
+          onPress={handleMarkComplete}
+          activeOpacity={0.8}
+        >
+          <Text style={styles.completeBtnText}>✅ Mark as Complete</Text>
+        </TouchableOpacity>
+      )}
+
+      {isCompleted && (
+        <View style={[styles.completedBadge, { backgroundColor: colors.success }]}>
+          <Text style={styles.completedText}>✅ Course Completed</Text>
+        </View>
       )}
     </SafeAreaView>
   );

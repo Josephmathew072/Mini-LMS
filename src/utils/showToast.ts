@@ -4,7 +4,6 @@ import Toast from 'react-native-toast-message';
 export function showToast(title: string, message?: string) {
     console.log('Showing toast:', title, message);
   if (Platform.OS === 'web') {
-    console.log('Web notification:', title, message);
     // fallback for web
     if (typeof window !== 'undefined') {
       // non-blocking fallback

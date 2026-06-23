@@ -1,7 +1,3 @@
-// src/hooks/useNetwork.ts
-// expo-network doesn't expose an event listener, so we poll every 4 seconds.
-// This gives us reliable offline detection without crashing.
-
 import { useEffect, useRef, useState } from 'react';
 import * as Network from 'expo-network';
 

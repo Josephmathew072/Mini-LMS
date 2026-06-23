@@ -1,6 +1,5 @@
-// app/course/[id].tsx
-
 import { OfflineBanner } from '@/components/OfflineBanner';
+import { useTheme } from '@/context/ThemeContext';
 import { useNetwork } from '@/hooks/useNetwork';
 import { checkAndFireBookmarkMilestone } from '@/services/notifications';
 import { useCourseStore } from '@/stores/courseStore';
@@ -21,6 +20,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 export default function CourseDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
+  const { colors } = useTheme();
   const {
     courses,
     bookmarkedIds,
@@ -66,7 +66,7 @@ export default function CourseDetailScreen() {
   const thumbnailUri = getCourseImage(course);
 
   return (
-    <SafeAreaView style={styles.safe} edges={['bottom']}>
+    <SafeAreaView style={[styles.safe, { backgroundColor: colors.background }]} edges={['bottom']}>
       {!isConnected && <OfflineBanner />}
 
       <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
@@ -77,51 +77,51 @@ export default function CourseDetailScreen() {
           contentFit="cover"
         />
         {/* Category badge */}
-        <View style={styles.categoryBadge}>
-          <Text style={styles.categoryText}>{course.category}</Text>
+        <View style={[styles.categoryBadge, { backgroundColor: colors.primaryLight }]}>
+          <Text style={[styles.categoryText, { color: colors.primary }]}>{course.category}</Text>
         </View>
 
         <View style={styles.content}>
           {/* Title and rating */}
-          <Text style={styles.title}>{course.title}</Text>
+          <Text style={[styles.title, { color: colors.text }]}>{course.title}</Text>
           <View style={styles.metaRow}>
             <Text style={styles.rating}>⭐ {course.rating.toFixed(1)}</Text>
-            <Text style={styles.dot}>·</Text>
-            <Text style={styles.metaText}>⏱ {course.duration}</Text>
-            <Text style={styles.dot}>·</Text>
-            <Text style={styles.metaText}>💰 ${course.price.toFixed(2)}</Text>
+            <Text style={[styles.dot, { color: colors.border }]}>·</Text>
+            <Text style={[styles.metaText, { color: colors.textSecondary }]}>⏱ {course.duration}</Text>
+            <Text style={[styles.dot, { color: colors.border }]}>·</Text>
+            <Text style={[styles.metaText, { color: colors.textSecondary }]}>💰 ${course.price.toFixed(2)}</Text>
           </View>
 
           {/* Instructor */}
-          <View style={styles.instructorRow}>
+          <View style={[styles.instructorRow, { backgroundColor: colors.surface }]}>
             <Image
               source={{ uri: course.instructor.avatarUrl || getAvatarImage(course.instructor.name) }}
               style={styles.instructorAvatar}
             />
             <View>
-              <Text style={styles.instructorName}>{course.instructor.name}</Text>
-              <Text style={styles.instructorEmail}>{course.instructor.email}</Text>
+              <Text style={[styles.instructorName, { color: colors.text }]}>{course.instructor.name}</Text>
+              <Text style={[styles.instructorEmail, { color: colors.textSecondary }]}>{course.instructor.email}</Text>
             </View>
           </View>
 
           {/* Description */}
-          <Text style={styles.descLabel}>About this course</Text>
-          <Text style={styles.description}>{course.description}</Text>
+          <Text style={[styles.descLabel, { color: colors.text }]}>About this course</Text>
+          <Text style={[styles.description, { color: colors.textSecondary }]}>{course.description}</Text>
 
           {/* Action buttons */}
           <View style={styles.actions}>
             <TouchableOpacity
-              style={[styles.bookmarkBtn, isBookmarked && styles.bookmarkedBtn]}
+              style={[styles.bookmarkBtn, { borderColor: colors.primary }, isBookmarked && { backgroundColor: colors.primaryLight }]}
               onPress={handleBookmark}
               activeOpacity={0.8}
             >
-              <Text style={[styles.bookmarkBtnText, isBookmarked && styles.bookmarkedBtnText]}>
+              <Text style={[styles.bookmarkBtnText, { color: colors.primary }]}>
                 {isBookmarked ? '🔖 Saved' : '🏷️ Save'}
               </Text>
             </TouchableOpacity>
 
             <TouchableOpacity
-              style={[styles.enrollBtn, isEnrolled && styles.enrolledBtn]}
+              style={[styles.enrollBtn, { backgroundColor: colors.primary }, isEnrolled && { backgroundColor: colors.success }]}
               onPress={handleEnroll}
               disabled={isEnrolled}
               activeOpacity={0.85}
@@ -135,7 +135,7 @@ export default function CourseDetailScreen() {
           {/* Start learning — only visible when enrolled */}
           {isEnrolled && (
             <TouchableOpacity
-              style={styles.startBtn}
+              style={[styles.startBtn, { backgroundColor: colors.text }]}
               onPress={handleStartLearning}
               activeOpacity={0.85}
             >

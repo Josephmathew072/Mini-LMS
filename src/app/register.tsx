@@ -1,5 +1,4 @@
-// app/register.tsx
-
+import { useTheme } from '@/context/ThemeContext';
 import { useAuthStore } from '@/stores/authStore';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Link, useRouter } from 'expo-router';
@@ -30,6 +29,7 @@ type FormData = z.infer<typeof schema>;
 
 export default function RegisterScreen() {
   const { register } = useAuthStore();
+  const { colors } = useTheme();
   const router = useRouter();
   const [submitting, setSubmitting] = useState(false);
 
@@ -58,7 +58,7 @@ export default function RegisterScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.safe}>
+    <SafeAreaView style={[styles.safe, { backgroundColor: colors.background }]}>
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
@@ -69,21 +69,21 @@ export default function RegisterScreen() {
         >
           <View style={styles.header}>
             <Text style={styles.logo}>🎓</Text>
-            <Text style={styles.title}>Create Account</Text>
-            <Text style={styles.subtitle}>Start your learning journey today.</Text>
+            <Text style={[styles.title, { color: colors.text }]}>Create Account</Text>
+            <Text style={[styles.subtitle, { color: colors.textSecondary }]}>Start your learning journey today.</Text>
           </View>
 
           {/* Username */}
           <View style={styles.fieldGroup}>
-            <Text style={styles.label}>Username</Text>
+            <Text style={[styles.label, { color: colors.text }]}>Username</Text>
             <Controller
               control={control}
               name="username"
               render={({ field: { onChange, onBlur, value } }) => (
                 <TextInput
-                  style={[styles.input, errors.username && styles.inputError]}
+                  style={[styles.input, { backgroundColor: colors.surface, color: colors.text, borderColor: errors.username ? colors.error : colors.border }]}
                   placeholder="your_username"
-                  placeholderTextColor="#94a3b8"
+                  placeholderTextColor={colors.textSecondary}
                   autoCapitalize="none"
                   autoCorrect={false}
                   onBlur={onBlur}
@@ -93,21 +93,21 @@ export default function RegisterScreen() {
               )}
             />
             {errors.username && (
-              <Text style={styles.errorText}>{errors.username.message}</Text>
+              <Text style={[styles.errorText, { color: colors.error }]}>{errors.username.message}</Text>
             )}
           </View>
 
           {/* Email */}
           <View style={styles.fieldGroup}>
-            <Text style={styles.label}>Email</Text>
+            <Text style={[styles.label, { color: colors.text }]}>Email</Text>
             <Controller
               control={control}
               name="email"
               render={({ field: { onChange, onBlur, value } }) => (
                 <TextInput
-                  style={[styles.input, errors.email && styles.inputError]}
+                  style={[styles.input, { backgroundColor: colors.surface, color: colors.text, borderColor: errors.email ? colors.error : colors.border }]}
                   placeholder="you@example.com"
-                  placeholderTextColor="#94a3b8"
+                  placeholderTextColor={colors.textSecondary}
                   keyboardType="email-address"
                   autoCapitalize="none"
                   autoCorrect={false}
@@ -118,21 +118,21 @@ export default function RegisterScreen() {
               )}
             />
             {errors.email && (
-              <Text style={styles.errorText}>{errors.email.message}</Text>
+              <Text style={[styles.errorText, { color: colors.error }]}>{errors.email.message}</Text>
             )}
           </View>
 
           {/* Password */}
           <View style={styles.fieldGroup}>
-            <Text style={styles.label}>Password</Text>
+            <Text style={[styles.label, { color: colors.text }]}>Password</Text>
             <Controller
               control={control}
               name="password"
               render={({ field: { onChange, onBlur, value } }) => (
                 <TextInput
-                  style={[styles.input, errors.password && styles.inputError]}
+                  style={[styles.input, { backgroundColor: colors.surface, color: colors.text, borderColor: errors.password ? colors.error : colors.border }]}
                   placeholder="Min. 8 characters"
-                  placeholderTextColor="#94a3b8"
+                  placeholderTextColor={colors.textSecondary}
                   secureTextEntry
                   onBlur={onBlur}
                   onChangeText={onChange}
@@ -141,24 +141,24 @@ export default function RegisterScreen() {
               )}
             />
             {errors.password && (
-              <Text style={styles.errorText}>{errors.password.message}</Text>
+              <Text style={[styles.errorText, { color: colors.error }]}>{errors.password.message}</Text>
             )}
           </View>
 
           <TouchableOpacity
-            style={[styles.submitBtn, submitting && styles.submitBtnDisabled]}
+            style={[styles.submitBtn, { backgroundColor: colors.primary }, submitting && styles.submitBtnDisabled]}
             onPress={handleSubmit(onSubmit)}
             disabled={submitting}
             activeOpacity={0.85}
           >
             {submitting
-              ? <ActivityIndicator color="#ffffff" />
+              ? <ActivityIndicator color={colors.background} />
               : <Text style={styles.submitText}>Create Account</Text>}
           </TouchableOpacity>
 
           <View style={styles.linkRow}>
-            <Text style={styles.linkLabel}>Already have an account? </Text>
-            <Link href="/login" style={styles.link}>Sign in</Link>
+            <Text style={[styles.linkLabel, { color: colors.textSecondary }]}>Already have an account? </Text>
+            <Link href="/login" style={[styles.link, { color: colors.primary }]}>Sign in</Link>
           </View>
         </ScrollView>
       </KeyboardAvoidingView>

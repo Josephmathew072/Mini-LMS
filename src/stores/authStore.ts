@@ -1,5 +1,3 @@
-// src/stores/authStore.ts
-
 import { create } from 'zustand';
 import { secureStorage, asyncStorage } from '../services/storage';
 import { authApi } from '../api/endpoints';

@@ -1,10 +1,9 @@
-// app/(tabs)/home.tsx
-
 import CourseCard from '@/components/CourseCard';
 import { ErrorView } from '@/components/ErrorView';
 import { OfflineBanner } from '@/components/OfflineBanner';
 import { SearchBar } from '@/components/SearchBar';
 import { SkeletonList } from '@/components/SkeletonCard';
+import { useTheme } from '@/context/ThemeContext';
 import { useDebounce } from '@/hooks/useDebounce';
 import { useNetwork } from '@/hooks/useNetwork';
 import { checkAndFireBookmarkMilestone } from '@/services/notifications';
@@ -25,6 +24,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 export default function HomeScreen() {
   const router = useRouter();
   const { user } = useAuthStore();
+  const { colors } = useTheme();
   const {
     courses,
     bookmarkedIds,
@@ -84,10 +84,10 @@ export default function HomeScreen() {
   // Initial loading state — show skeletons
   if (isLoading && courses.length === 0) {
     return (
-      <SafeAreaView style={styles.safe}>
+      <SafeAreaView style={[styles.safe, { backgroundColor: colors.background }]}>
         {!isConnected && <OfflineBanner />}
         <View style={styles.headerRow}>
-          <Text style={styles.greeting}>Hey {user?.username ?? 'there'} 👋</Text>
+          <Text style={[styles.greeting, { color: colors.text }]}>Hey {user?.username ?? 'there'} 👋</Text>
         </View>
         <SkeletonList />
       </SafeAreaView>
@@ -97,7 +97,7 @@ export default function HomeScreen() {
   // Network error with no cache
   if (error && courses.length === 0) {
     return (
-      <SafeAreaView style={styles.safe}>
+      <SafeAreaView style={[styles.safe, { backgroundColor: colors.background }]}>
         {!isConnected && <OfflineBanner />}
         <ErrorView message={error} onRetry={fetchCourses} />
       </SafeAreaView>
@@ -105,7 +105,7 @@ export default function HomeScreen() {
   }
 
   return (
-    <SafeAreaView style={styles.safe}>
+    <SafeAreaView style={[styles.safe, { backgroundColor: colors.background }]}>
       {!isConnected && <OfflineBanner />}
 
       <LegendList
@@ -119,28 +119,28 @@ export default function HomeScreen() {
           <View>
             <View style={styles.headerRow}>
               <View>
-                <Text style={styles.greeting}>Hey {user?.username ?? 'there'} 👋</Text>
-                <Text style={styles.subGreeting}>What do you want to learn today?</Text>
+                <Text style={[styles.greeting, { color: colors.text }]}>Hey {user?.username ?? 'there'} 👋</Text>
+                <Text style={[styles.subGreeting, { color: colors.textSecondary }]}>What do you want to learn today?</Text>
               </View>
             </View>
             <SearchBar value={search} onChangeText={setSearch} />
             {error && isConnected && (
-              <Text style={styles.cacheNote}>Showing cached results</Text>
+              <Text style={[styles.cacheNote, { color: colors.warning }]}>Showing cached results</Text>
             )}
           </View>
         }
         ListEmptyComponent={
           <View style={styles.empty}>
             <Text style={styles.emptyEmoji}>🔍</Text>
-            <Text style={styles.emptyText}>No courses match "{debouncedSearch}"</Text>
+            <Text style={[styles.emptyText, { color: colors.textSecondary }]}>No courses match "{debouncedSearch}"</Text>
           </View>
         }
         refreshControl={
           <RefreshControl
             refreshing={isLoading}
             onRefresh={handleRefresh}
-            colors={['#6366f1']}
-            tintColor="#6366f1"
+            colors={[colors.primary]}
+            tintColor={colors.primary}
           />
         }
         contentContainerStyle={styles.listContent}

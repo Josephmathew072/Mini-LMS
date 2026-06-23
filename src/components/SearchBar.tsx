@@ -1,7 +1,5 @@
-// src/components/SearchBar.tsx
-
-import React from 'react';
-import { View, TextInput, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import { useTheme } from '@/context/ThemeContext';
+import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 interface Props {
   value: string;
@@ -10,13 +8,15 @@ interface Props {
 }
 
 export function SearchBar({ value, onChangeText, placeholder = 'Search courses...' }: Props) {
+  const { colors } = useTheme();
+
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: colors.surfaceAlt }]}>
       <Text style={styles.icon}>🔍</Text>
       <TextInput
-        style={styles.input}
+        style={[styles.input, { color: colors.text }]}
         placeholder={placeholder}
-        placeholderTextColor="#94a3b8"
+        placeholderTextColor={colors.textSecondary}
         value={value}
         onChangeText={onChangeText}
         returnKeyType="search"
@@ -26,7 +26,7 @@ export function SearchBar({ value, onChangeText, placeholder = 'Search courses..
       />
       {value.length > 0 && (
         <TouchableOpacity onPress={() => onChangeText('')} hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}>
-          <Text style={styles.clear}>✕</Text>
+          <Text style={[styles.clear, { color: colors.textSecondary }]}>✕</Text>
         </TouchableOpacity>
       )}
     </View>

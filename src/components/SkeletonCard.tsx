@@ -1,9 +1,9 @@
-// src/components/SkeletonCard.tsx
-
-import React, { useEffect, useRef } from 'react';
-import { Animated, View, StyleSheet } from 'react-native';
+import { useTheme } from '@/context/ThemeContext';
+import { useEffect, useRef } from 'react';
+import { Animated, StyleSheet, View } from 'react-native';
 
 function SkeletonCard() {
+  const { colors } = useTheme();
   const opacity = useRef(new Animated.Value(0.4)).current;
 
   useEffect(() => {
@@ -16,12 +16,12 @@ function SkeletonCard() {
   }, [opacity]);
 
   return (
-    <Animated.View style={[styles.card, { opacity }]}>
-      <View style={styles.image} />
+    <Animated.View style={[styles.card, { backgroundColor: colors.surface, opacity }]}>
+      <View style={[styles.image, { backgroundColor: colors.border }]} />
       <View style={styles.body}>
-        <View style={[styles.line, { width: '80%' }]} />
-        <View style={[styles.line, { width: '60%', marginTop: 6 }]} />
-        <View style={[styles.line, { width: '40%', marginTop: 6 }]} />
+        <View style={[styles.line, { backgroundColor: colors.border, width: '80%' }]} />
+        <View style={[styles.line, { backgroundColor: colors.border, width: '60%', marginTop: 6 }]} />
+        <View style={[styles.line, { backgroundColor: colors.border, width: '40%', marginTop: 6 }]} />
       </View>
     </Animated.View>
   );

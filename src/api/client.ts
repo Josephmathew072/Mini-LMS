@@ -1,5 +1,3 @@
-// src/api/client.ts
-
 import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
 import { secureStorage } from '../services/storage';
 import { STORAGE_KEYS } from '../utils/constants';
@@ -129,8 +127,8 @@ apiClient.interceptors.response.use(
           refreshConfig,
         );
 
-        const newAccessToken = res.data.data.tokens.accessToken;
-        const newRefreshToken = res.data.data.tokens.refreshToken;
+        const newAccessToken = res.data.data.accessToken;
+        const newRefreshToken = res.data.data.refreshToken;
 
         await secureStorage.setItem(STORAGE_KEYS.ACCESS_TOKEN, newAccessToken);
         await secureStorage.setItem(STORAGE_KEYS.REFRESH_TOKEN, newRefreshToken);

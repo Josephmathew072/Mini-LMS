@@ -1,5 +1,3 @@
-// src/api/endpoints.ts
-
 import apiClient from './client';
 import type { ApiResponse, User } from '../types';
 
@@ -15,7 +13,7 @@ interface AuthResult {
 }
 
 // FreeAPI actual response shape:
-// { statusCode, success, message, data: { user, tokens: { accessToken, refreshToken } } }
+// { statusCode, success, message, data: { user, accessToken, refreshToken } } }
 
 export const authApi = {
   login: async (email: string, password: string): Promise<AuthResult> => {

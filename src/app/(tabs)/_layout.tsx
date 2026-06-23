@@ -1,5 +1,3 @@
-// app/(tabs)/_layout.tsx
-
 import { Tabs } from 'expo-router';
 import { StyleSheet, Text } from 'react-native';
 

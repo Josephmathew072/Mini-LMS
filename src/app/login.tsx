@@ -1,5 +1,4 @@
-// app/login.tsx
-
+import { useTheme } from '@/context/ThemeContext';
 import { useAuthStore } from '@/stores/authStore';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Link, useRouter } from 'expo-router';
@@ -29,6 +28,7 @@ type FormData = z.infer<typeof schema>;
 
 export default function LoginScreen() {
   const { login } = useAuthStore();
+  const { colors } = useTheme();
   const router = useRouter();
   const [submitting, setSubmitting] = useState(false);
 
@@ -55,7 +55,7 @@ export default function LoginScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.safe}>
+    <SafeAreaView style={[styles.safe, { backgroundColor: colors.background }]}>
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
@@ -67,21 +67,21 @@ export default function LoginScreen() {
           {/* Header */}
           <View style={styles.header}>
             <Text style={styles.logo}>📖</Text>
-            <Text style={styles.title}>mini-lms</Text>
-            <Text style={styles.subtitle}>Welcome back! Sign in to continue.</Text>
+            <Text style={[styles.title, { color: colors.text }]}>mini-lms</Text>
+            <Text style={[styles.subtitle, { color: colors.textSecondary }]}>Welcome back! Sign in to continue.</Text>
           </View>
 
           {/* Email */}
           <View style={styles.fieldGroup}>
-            <Text style={styles.label}>Email</Text>
+            <Text style={[styles.label, { color: colors.text }]}>Email</Text>
             <Controller
               control={control}
               name="email"
               render={({ field: { onChange, onBlur, value } }) => (
                 <TextInput
-                  style={[styles.input, errors.email && styles.inputError]}
+                  style={[styles.input, { backgroundColor: colors.surface, color: colors.text, borderColor: errors.email ? colors.error : colors.border }, errors.email && styles.inputError]}
                   placeholder="you@example.com"
-                  placeholderTextColor="#94a3b8"
+                  placeholderTextColor={colors.textSecondary}
                   keyboardType="email-address"
                   autoCapitalize="none"
                   autoCorrect={false}
@@ -92,21 +92,21 @@ export default function LoginScreen() {
               )}
             />
             {errors.email && (
-              <Text style={styles.errorText}>{errors.email.message}</Text>
+              <Text style={[styles.errorText, { color: colors.error }]}>{errors.email.message}</Text>
             )}
           </View>
 
           {/* Password */}
           <View style={styles.fieldGroup}>
-            <Text style={styles.label}>Password</Text>
+            <Text style={[styles.label, { color: colors.text }]}>Password</Text>
             <Controller
               control={control}
               name="password"
               render={({ field: { onChange, onBlur, value } }) => (
                 <TextInput
-                  style={[styles.input, errors.password && styles.inputError]}
+                  style={[styles.input, { backgroundColor: colors.surface, color: colors.text, borderColor: errors.password ? colors.error : colors.border }, errors.password && styles.inputError]}
                   placeholder="••••••••"
-                  placeholderTextColor="#94a3b8"
+                  placeholderTextColor={colors.textSecondary}
                   secureTextEntry
                   onBlur={onBlur}
                   onChangeText={onChange}
@@ -115,26 +115,26 @@ export default function LoginScreen() {
               )}
             />
             {errors.password && (
-              <Text style={styles.errorText}>{errors.password.message}</Text>
+              <Text style={[styles.errorText, { color: colors.error }]}>{errors.password.message}</Text>
             )}
           </View>
 
           {/* Submit */}
           <TouchableOpacity
-            style={[styles.submitBtn, submitting && styles.submitBtnDisabled]}
+            style={[styles.submitBtn, { backgroundColor: colors.primary }, submitting && styles.submitBtnDisabled]}
             onPress={handleSubmit(onSubmit)}
             disabled={submitting}
             activeOpacity={0.85}
           >
             {submitting
-              ? <ActivityIndicator color="#ffffff" />
+              ? <ActivityIndicator color={colors.background} />
               : <Text style={styles.submitText}>Sign In</Text>}
           </TouchableOpacity>
 
           {/* Register link */}
           <View style={styles.linkRow}>
-            <Text style={styles.linkLabel}>Don't have an account? </Text>
-            <Link href="/register" style={styles.link}>Create one</Link>
+            <Text style={[styles.linkLabel, { color: colors.textSecondary }]}>Don't have an account? </Text>
+            <Link href="/register" style={[styles.link, { color: colors.primary }]}>Create one</Link>
           </View>
         </ScrollView>
       </KeyboardAvoidingView>

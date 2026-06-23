@@ -48,7 +48,7 @@ export function getCourseImage(course: CourseLike): string {
   const realImage = course.thumbnailUrl ?? course.images?.[0];
 
   if (realImage && realImage.startsWith('http')) {
-    return realImage;
+    // return realImage;
   }
 
   /**

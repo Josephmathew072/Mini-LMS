@@ -1,5 +1,3 @@
-// src/types/index.ts
-
 export interface Instructor {
   id: string;
   name: string;

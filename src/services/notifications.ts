@@ -1,6 +1,3 @@
-// src/services/notifications.ts
-// Uses expo-notifications SDK 56 — trigger type uses { type: 'timeInterval' }
-
 import { showToast } from '@/utils/showToast';
 import * as Device from 'expo-device';
 import type * as Notifications from 'expo-notifications';

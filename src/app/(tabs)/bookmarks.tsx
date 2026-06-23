@@ -1,6 +1,5 @@
-// app/(tabs)/bookmarks.tsx
-
 import CourseCard from '@/components/CourseCard';
+import { useTheme } from '@/context/ThemeContext';
 import { useCourseStore } from '@/stores/courseStore';
 import type { Course } from '@/types';
 import { useRouter } from 'expo-router';
@@ -15,6 +14,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function BookmarksScreen() {
   const router = useRouter();
+  const { colors } = useTheme();
   const { courses, bookmarkedIds, toggleBookmark } = useCourseStore();
 
   const bookmarkedCourses = courses.filter((c) => bookmarkedIds.includes(c.id));
@@ -26,14 +26,14 @@ export default function BookmarksScreen() {
 
   if (bookmarkedCourses.length === 0) {
     return (
-      <SafeAreaView style={styles.safe}>
+      <SafeAreaView style={[styles.safe, { backgroundColor: colors.background }]}>
         <View style={styles.pageHeader}>
-          <Text style={styles.pageTitle}>Saved Courses</Text>
+          <Text style={[styles.pageTitle, { color: colors.text }]}>Saved Courses</Text>
         </View>
         <View style={styles.empty}>
           <Text style={styles.emptyEmoji}>🔖</Text>
-          <Text style={styles.emptyTitle}>Nothing saved yet</Text>
-          <Text style={styles.emptyBody}>
+          <Text style={[styles.emptyTitle, { color: colors.text }]}>Nothing saved yet</Text>
+          <Text style={[styles.emptyBody, { color: colors.textSecondary }]}>
             Tap the bookmark icon on any course to save it here.
           </Text>
         </View>
@@ -42,10 +42,10 @@ export default function BookmarksScreen() {
   }
 
   return (
-    <SafeAreaView style={styles.safe}>
+    <SafeAreaView style={[styles.safe, { backgroundColor: colors.background }]}>
       <View style={styles.pageHeader}>
-        <Text style={styles.pageTitle}>Saved Courses</Text>
-        <Text style={styles.count}>{bookmarkedCourses.length} saved</Text>
+        <Text style={[styles.pageTitle, { color: colors.text }]}>Saved Courses</Text>
+        <Text style={[styles.count, { color: colors.primary }]}>{bookmarkedCourses.length} saved</Text>
       </View>
       <FlatList
         data={bookmarkedCourses}

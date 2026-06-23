@@ -1,5 +1,3 @@
-// src/stores/settingsStore.ts
-
 import { create } from 'zustand';
 import { asyncStorage } from '../services/storage';
 import { STORAGE_KEYS } from '../utils/constants';

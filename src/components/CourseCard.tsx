@@ -1,5 +1,4 @@
-// src/components/CourseCard.tsx
-
+import { useTheme } from '@/context/ThemeContext';
 import { Image } from 'expo-image';
 import { memo } from 'react';
 import {
@@ -26,22 +25,14 @@ const CourseCard = memo(function CourseCard({
   onPress,
   onBookmarkPress,
 }: Props) {
+  const { colors } = useTheme();
+
   return (
     <TouchableOpacity
-      style={styles.card}
+      style={[styles.card, { backgroundColor: colors.surface }]}
       onPress={onPress}
       activeOpacity={0.75}
     >
-      {/* <Image
-        source={{
-          uri:
-            course.thumbnailUrl ||
-            course.images?.[0] ||
-            `https://picsum.photos/seed/${course.id}/400/200`,
-        }}
-        style={styles.thumbnail}
-        contentFit="cover"
-      /> */}
       <Image
         source={{
           uri: getCourseImage(course),
@@ -51,19 +42,19 @@ const CourseCard = memo(function CourseCard({
       />
       
       <View style={styles.body}>
-        <Text style={styles.title} numberOfLines={2}>
+        <Text style={[styles.title, { color: colors.text }]} numberOfLines={2}>
           {course.title}
         </Text>
 
-        <Text style={styles.description} numberOfLines={2}>
+        <Text style={[styles.description, { color: colors.textSecondary }]} numberOfLines={2}>
           {course.description}
         </Text>
 
         <View style={styles.footer}>
           <View style={styles.meta}>
-            <Text style={styles.metaText}>⭐ {course.rating.toFixed(1)}</Text>
-            <Text style={styles.dot}>·</Text>
-            <Text style={styles.metaText}>{course.duration}</Text>
+            <Text style={[styles.metaText, { color: colors.textSecondary }]}>⭐ {course.rating.toFixed(1)}</Text>
+            <Text style={[styles.dot, { color: colors.textSecondary }]}>·</Text>
+            <Text style={[styles.metaText, { color: colors.textSecondary }]}>{course.duration}</Text>
           </View>
 
           <TouchableOpacity
@@ -75,7 +66,7 @@ const CourseCard = memo(function CourseCard({
           </TouchableOpacity>
         </View>
 
-        <Text style={styles.instructor} numberOfLines={1}>
+        <Text style={[styles.instructor, { color: colors.primary }]} numberOfLines={1}>
           By {course.instructor.name}
         </Text>
       </View>

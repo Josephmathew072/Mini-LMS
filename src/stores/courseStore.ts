@@ -1,5 +1,3 @@
-// src/stores/courseStore.ts
-
 import { create } from 'zustand';
 import { coursesApi } from '../api/endpoints';
 import { checkAndFireBookmarkMilestone, resetBookmarkMilestone } from '../services/notifications';

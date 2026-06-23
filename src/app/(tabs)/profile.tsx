@@ -1,6 +1,3 @@
-// app/(tabs)/profile.tsx
-// expo-image-picker SDK 56 — MediaTypeOptions is replaced by mediaTypes: 'images'
-
 import { useTheme } from '@/context/ThemeContext';
 import { asyncStorage } from '@/services/storage';
 import { useAuthStore } from '@/stores/authStore';
