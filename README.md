@@ -10,19 +10,22 @@ A production-quality **React Native + Expo** learning application with authentic
 ## 📱 Screenshots
 
 ### Main Screens
+
 | Home / Explore | Bookmarks | Profile |
 |---|---|---|
-| ![Placeholder: Course list with search](https://via.placeholder.com/300x600?text=Home+Screen) | ![Placeholder: Saved courses](https://via.placeholder.com/300x600?text=Bookmarks) | ![Placeholder: User profile](https://via.placeholder.com/300x600?text=Profile) |
+| ![Home](assets/screenshots/Home.png) | ![Bookmarks](assets/screenshots/Bookmarks.png) | ![Profile](assets/screenshots/Profile.png) |
 
 ### Course & Learning
+
 | Course Detail | WebView Content | Theme Toggle |
 |---|---|---|
-| ![Placeholder: Course details](https://via.placeholder.com/300x600?text=Course+Detail) | ![Placeholder: Course content](https://via.placeholder.com/300x600?text=WebView+Content) | ![Placeholder: Dark mode](https://via.placeholder.com/300x600?text=Dark+Mode) |
+| ![Course Detail](assets/screenshots/Course%20Detail.png) | ![WebView Content](assets/screenshots/WebView%20Content.png) | ![Theme Toggle](assets/screenshots/Theme%20Toggle.png) |
 
 ### Authentication
+
 | Login | Register | Offline Mode |
 |---|---|---|
-| ![Placeholder: Login screen](https://via.placeholder.com/300x600?text=Login) | ![Placeholder: Sign up](https://via.placeholder.com/300x600?text=Register) | ![Placeholder: Offline banner](https://via.placeholder.com/300x600?text=Offline+Mode) |
+| ![Login](assets/screenshots/Login.png) | ![Register](assets/screenshots/Register.png) | ![Offline Mode](assets/screenshots/Offline%20Mode.png) |
 
 ---
 
