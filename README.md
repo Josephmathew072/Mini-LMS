@@ -293,9 +293,9 @@ npm install --save-dev jest @testing-library/react-native
 | Mark course complete | ✅ | WebView integration |
 | Bidirectional WebView | ✅ | Native ↔ Web messaging |
 | Profile picture update | ✅ | Image picker + local storage |
-| **Dark Mode (System/Light/Dark)** | ✅ | **NEW: Full theme support** |
-| **Dynamic theming all components** | ✅ | **NEW: All pages use useTheme** |
-| **Nativewind throughout** | ✅ | **NEW: Responsive layouts** |
+| Dark Mode (System/Light/Dark) | ✅ | Full theme support |
+| Dynamic theming all components | ✅ | All pages use useTheme |
+| Nativewind throughout | ✅ | Responsive layouts |
 | Notifications (milestone + inactivity) | ✅ | Local notifications |
 | Offline caching | ✅ | Courses cached on first load |
 | Offline banner | ✅ | 4-second polling |

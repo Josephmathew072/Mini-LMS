@@ -20,7 +20,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 export default function CourseDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
-  const { colors } = useTheme();
+  const { colors,isDarkMode } = useTheme();
+
   const {
     courses,
     bookmarkedIds,
@@ -139,7 +140,7 @@ export default function CourseDetailScreen() {
               onPress={handleStartLearning}
               activeOpacity={0.85}
             >
-              <Text style={styles.startBtnText}>📖  Start Learning</Text>
+              <Text style={[styles.startBtnText, { color: isDarkMode ? 'black' : '#ffffff' }]}>📖  Start Learning</Text>
             </TouchableOpacity>
           )}
         </View>
@@ -274,7 +275,6 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   startBtnText: {
-    color: '#ffffff',
     fontWeight: '700',
     fontSize: 15,
     letterSpacing: 0.3,

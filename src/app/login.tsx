@@ -10,7 +10,6 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
-  StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
@@ -38,16 +37,23 @@ export default function LoginScreen() {
     formState: { errors },
   } = useForm<FormData>({
     resolver: zodResolver(schema),
-    defaultValues: { email: '', password: '' },
+    defaultValues: {
+      email: '',
+      password: '',
+    },
   });
 
   const onSubmit = async (data: FormData) => {
     setSubmitting(true);
+
     try {
       await login(data.email, data.password);
       router.replace('/(tabs)/home');
     } catch (err: unknown) {
-      const msg = (err as { message?: string })?.message ?? 'Login failed. Check your credentials.';
+      const msg =
+        (err as { message?: string })?.message ??
+        'Login failed. Check your credentials.';
+
       Alert.alert('Login Failed', msg);
     } finally {
       setSubmitting(false);
@@ -55,31 +61,64 @@ export default function LoginScreen() {
   };
 
   return (
-    <SafeAreaView style={[styles.safe, { backgroundColor: colors.background }]}>
+    <SafeAreaView
+      className="flex-1"
+      style={{ backgroundColor: colors.background }}
+    >
       <KeyboardAvoidingView
-        style={{ flex: 1 }}
+        className="flex-1"
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       >
         <ScrollView
-          contentContainerStyle={styles.container}
+          contentContainerStyle={{
+            flexGrow: 1,
+            justifyContent: 'center',
+            paddingHorizontal: 24,
+            paddingVertical: 32,
+          }}
           keyboardShouldPersistTaps="handled"
         >
           {/* Header */}
-          <View style={styles.header}>
-            <Text style={styles.logo}>📖</Text>
-            <Text style={[styles.title, { color: colors.text }]}>mini-lms</Text>
-            <Text style={[styles.subtitle, { color: colors.textSecondary }]}>Welcome back! Sign in to continue.</Text>
+          <View className="items-center mb-9">
+            <Text className="text-[52px] mb-2">📖</Text>
+
+            <Text
+              className="text-3xl font-extrabold tracking-tight"
+              style={{ color: colors.text }}
+            >
+              mini-lms
+            </Text>
+
+            <Text
+              className="text-sm text-center mt-1.5"
+              style={{ color: colors.textSecondary }}
+            >
+              Welcome back! Sign in to continue.
+            </Text>
           </View>
 
           {/* Email */}
-          <View style={styles.fieldGroup}>
-            <Text style={[styles.label, { color: colors.text }]}>Email</Text>
+          <View className="mb-4">
+            <Text
+              className="text-sm font-semibold mb-1.5"
+              style={{ color: colors.text }}
+            >
+              Email
+            </Text>
+
             <Controller
               control={control}
               name="email"
               render={({ field: { onChange, onBlur, value } }) => (
                 <TextInput
-                  style={[styles.input, { backgroundColor: colors.surface, color: colors.text, borderColor: errors.email ? colors.error : colors.border }, errors.email && styles.inputError]}
+                  className="rounded-xl px-4 py-3 text-[15px] border-[1.5px]"
+                  style={{
+                    backgroundColor: colors.surface,
+                    color: colors.text,
+                    borderColor: errors.email
+                      ? colors.error
+                      : colors.border,
+                  }}
                   placeholder="you@example.com"
                   placeholderTextColor={colors.textSecondary}
                   keyboardType="email-address"
@@ -91,20 +130,39 @@ export default function LoginScreen() {
                 />
               )}
             />
+
             {errors.email && (
-              <Text style={[styles.errorText, { color: colors.error }]}>{errors.email.message}</Text>
+              <Text
+                className="text-xs mt-1"
+                style={{ color: colors.error }}
+              >
+                {errors.email.message}
+              </Text>
             )}
           </View>
 
           {/* Password */}
-          <View style={styles.fieldGroup}>
-            <Text style={[styles.label, { color: colors.text }]}>Password</Text>
+          <View className="mb-4">
+            <Text
+              className="text-sm font-semibold mb-1.5"
+              style={{ color: colors.text }}
+            >
+              Password
+            </Text>
+
             <Controller
               control={control}
               name="password"
               render={({ field: { onChange, onBlur, value } }) => (
                 <TextInput
-                  style={[styles.input, { backgroundColor: colors.surface, color: colors.text, borderColor: errors.password ? colors.error : colors.border }, errors.password && styles.inputError]}
+                  className="rounded-xl px-4 py-3 text-[15px] border-[1.5px]"
+                  style={{
+                    backgroundColor: colors.surface,
+                    color: colors.text,
+                    borderColor: errors.password
+                      ? colors.error
+                      : colors.border,
+                  }}
                   placeholder="••••••••"
                   placeholderTextColor={colors.textSecondary}
                   secureTextEntry
@@ -114,74 +172,55 @@ export default function LoginScreen() {
                 />
               )}
             />
+
             {errors.password && (
-              <Text style={[styles.errorText, { color: colors.error }]}>{errors.password.message}</Text>
+              <Text
+                className="text-xs mt-1"
+                style={{ color: colors.error }}
+              >
+                {errors.password.message}
+              </Text>
             )}
           </View>
 
           {/* Submit */}
           <TouchableOpacity
-            style={[styles.submitBtn, { backgroundColor: colors.primary }, submitting && styles.submitBtnDisabled]}
+            className={`rounded-xl py-4 items-center mt-2 ${
+              submitting ? 'opacity-65' : ''
+            }`}
+            style={{ backgroundColor: colors.primary }}
             onPress={handleSubmit(onSubmit)}
             disabled={submitting}
             activeOpacity={0.85}
           >
-            {submitting
-              ? <ActivityIndicator color={colors.background} />
-              : <Text style={styles.submitText}>Sign In</Text>}
+            {submitting ? (
+              <ActivityIndicator color={colors.background} />
+            ) : (
+              <Text className="text-white font-bold text-base">
+                Sign In
+              </Text>
+            )}
           </TouchableOpacity>
 
-          {/* Register link */}
-          <View style={styles.linkRow}>
-            <Text style={[styles.linkLabel, { color: colors.textSecondary }]}>Don't have an account? </Text>
-            <Link href="/register" style={[styles.link, { color: colors.primary }]}>Create one</Link>
+          {/* Register Link */}
+          <View className="flex-row justify-center mt-5">
+            <Text
+              className="text-sm"
+              style={{ color: colors.textSecondary }}
+            >
+              Don't have an account?{' '}
+            </Text>
+
+            <Link
+              href="/register"
+              className="text-sm font-semibold"
+              style={{ color: colors.primary }}
+            >
+              Create one
+            </Link>
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: '#ffffff' },
-  container: {
-    flexGrow: 1,
-    justifyContent: 'center',
-    paddingHorizontal: 24,
-    paddingVertical: 32,
-  },
-  header: { alignItems: 'center', marginBottom: 36 },
-  logo: { fontSize: 52, marginBottom: 8 },
-  title: { fontSize: 28, fontWeight: '800', color: '#1e293b', letterSpacing: -0.5 },
-  subtitle: { fontSize: 15, color: '#64748b', marginTop: 6, textAlign: 'center' },
-  fieldGroup: { marginBottom: 16 },
-  label: { fontSize: 14, fontWeight: '600', color: '#374151', marginBottom: 6 },
-  input: {
-    borderWidth: 1.5,
-    borderColor: '#e2e8f0',
-    borderRadius: 12,
-    paddingHorizontal: 14,
-    paddingVertical: 13,
-    fontSize: 15,
-    color: '#1e293b',
-    backgroundColor: '#f8fafc',
-  },
-  inputError: { borderColor: '#ef4444' },
-  errorText: { fontSize: 12, color: '#ef4444', marginTop: 4 },
-  submitBtn: {
-    backgroundColor: '#6366f1',
-    borderRadius: 12,
-    paddingVertical: 15,
-    alignItems: 'center',
-    marginTop: 8,
-  },
-  submitBtnDisabled: { opacity: 0.65 },
-  submitText: { color: '#ffffff', fontWeight: '700', fontSize: 16 },
-  linkRow: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginTop: 20,
-  },
-  linkLabel: { fontSize: 14, color: '#64748b' },
-  link: { fontSize: 14, color: '#6366f1', fontWeight: '600' },
-});

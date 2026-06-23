@@ -31,11 +31,10 @@ const INJECT_ON_LOAD = `
 
 export default function WebViewScreen() {
   const { courseId } = useLocalSearchParams<{ courseId: string }>();
-  const { colors } = useTheme();
+  const { colors, isDarkMode } = useTheme();
   const { courses, completedIds, markCourseComplete } = useCourseStore();
   const { user } = useAuthStore();
   const router = useRouter();
-
   const isConnected = useNetwork();
 
   const webviewRef = useRef<WebView>(null);
@@ -154,7 +153,11 @@ export default function WebViewScreen() {
     );
   }
 
-  const htmlContent = buildCourseHTML(course);
+  const htmlContent = buildCourseHTML(
+    course,
+    colors,
+    isDarkMode,
+  );
 
   return (
     <SafeAreaView style={[styles.safe, { backgroundColor: colors.background }]} edges={['bottom']}>
@@ -241,7 +244,7 @@ export default function WebViewScreen() {
 
       {isCompleted && (
         <View style={[styles.completedBadge, { backgroundColor: colors.success }]}>
-          <Text style={styles.completedText}>✅ Course Completed</Text>
+          <Text style={[styles.completedText, { color: isDarkMode ? '#ffff' : '#16a34a' }]}>✅ Course Completed</Text>
         </View>
       )}
     </SafeAreaView>
@@ -326,7 +329,6 @@ const styles = StyleSheet.create({
   },
 
   completedText: {
-    color: '#16a34a',
     fontWeight: '700',
     fontSize: 14,
   },
@@ -355,6 +357,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#bfdbfe',
     alignSelf: 'flex-start',
+    marginBottom: 6,
   },
 
   lessonText: {
