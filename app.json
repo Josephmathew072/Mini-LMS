@@ -3,12 +3,19 @@
     "name": "mini-lms",
     "slug": "mini-lms",
     "version": "1.0.0",
-    "orientation": "portrait",
+    "orientation": "default",
     "icon": "./assets/images/icon.png",
     "scheme": "minilms",
     "userInterfaceStyle": "automatic",
     "ios": {
-      "icon": "./assets/expo.icon"
+      "icon": "./assets/expo.icon",
+      "supportsTablet": true,
+      "bundleIdentifier": "com.mini-lms.app",
+      "infoPlist": {
+        "UIBackgroundModes": [
+          "remote-notification"
+        ]
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -17,9 +24,18 @@
         "backgroundImage": "./assets/images/android-icon-background.png",
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.josephmathew.minilms",
+      "permissions": [
+        "android.permission.NOTIFICATIONS",
+        "android.permission.INTERNET",
+        "android.permission.RECEIVE_BOOT_COMPLETED",
+        "android.permission.VIBRATE",
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "web": {
+      "bundler": "metro",
       "output": "static",
       "favicon": "./assets/images/favicon.png"
     },
@@ -34,11 +50,38 @@
             "imageWidth": 76
           }
         }
+      ],
+      "expo-secure-store",
+      "expo-image",
+      "expo-status-bar",
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/images/icon.png",
+          "color": "#208AEF",
+          "sounds": []
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Allow mini-lms to access your photos to update your profile picture."
+        }
       ]
     ],
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
-    }
+    },
+    "extra": {
+      "apiBase": "https://api.freeapi.app/api/v1",
+      "router": {},
+      "eas": {
+        "projectId": "70eaadf6-9f5f-4e38-9be9-ba07e06deb25"
+      }
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ]
   }
 }
